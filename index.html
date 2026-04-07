@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tigrox Tiger Milk King — Ad Bounty Brief</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #111111;
+            --surface-2: #1a1a1a;
+            --surface-3: #222222;
+            --border: #2a2a2a;
+            --border-hover: #3a3a3a;
+            --text: #f5f5f7;
+            --text-2: #a1a1a6;
+            --text-3: #6e6e73;
+            --blue: #2997ff;
+            --blue-glow: rgba(41,151,255,0.15);
+            --green: #30d158;
+            --green-glow: rgba(48,209,88,0.12);
+            --orange: #ff9f0a;
+            --orange-glow: rgba(255,159,10,0.12);
+            --red: #ff453a;
+            --red-glow: rgba(255,69,58,0.10);
+            --purple: #bf5af2;
+            --purple-glow: rgba(191,90,242,0.12);
+            --teal: #64d2ff;
+            --teal-glow: rgba(100,210,255,0.10);
+            --amber: #ffd60a;
+            --amber-glow: rgba(255,214,10,0.12);
+            --r: 20px;
+            --r-sm: 14px;
+            --r-xs: 10px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.58; font-size: 15px; -webkit-font-smoothing: antialiased; }
+
+        .hero { padding: 60px 24px 52px; text-align: center; }
+        .hero-logo { width: 80px; height: 80px; border-radius: 18px; margin: 0 auto 22px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--surface); border: 1px solid var(--border); font-size: 36px; }
+        .hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 600; letter-spacing: -0.04em; margin-bottom: 4px; }
+        .hero-sub { color: var(--text-3); font-size: 17px; font-weight: 400; letter-spacing: -0.01em; }
+        .hero-sub span { color: var(--orange); }
+        .hero-links { display: flex; justify-content: center; gap: 6px; margin-top: 18px; flex-wrap: wrap; }
+        .hero-pill { display: inline-flex; align-items: center; gap: 6px; padding: 7px 15px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; text-decoration: none; color: var(--text-2); font-size: 13px; font-weight: 500; transition: all 0.2s; }
+        .hero-pill:hover { border-color: var(--border-hover); color: var(--text); background: var(--surface-2); }
+
+        .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px 72px; }
+
+        .tile { background: var(--surface); border-radius: var(--r); overflow: hidden; margin-bottom: 12px; border: 1px solid var(--border); transition: border-color 0.25s; animation: tileIn 0.5s cubic-bezier(0.4,0,0.2,1) both; }
+        .tile:hover { border-color: var(--border-hover); }
+        .tile:nth-child(1) { animation-delay: 0s; } .tile:nth-child(2) { animation-delay: 0.06s; } .tile:nth-child(3) { animation-delay: 0.12s; } .tile:nth-child(4) { animation-delay: 0.18s; } .tile:nth-child(5) { animation-delay: 0.24s; } .tile:nth-child(6) { animation-delay: 0.3s; }
+        .tile-head { display: flex; align-items: center; justify-content: space-between; padding: 22px 26px; cursor: pointer; user-select: none; }
+        .tile-head h2 { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
+        .tile-head .t-icon { width: 32px; height: 32px; border-radius: var(--r-xs); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+        .tile-head .chev { width: 20px; height: 20px; color: var(--text-3); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .tile-head.open .chev { transform: rotate(180deg); }
+        .tile-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
+        .tile-body.open { max-height: 60000px; }
+        .tile-inner { padding: 0 26px 28px; }
+        .tile-inner h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin: 26px 0 10px; }
+        .tile-inner h3:first-child { margin-top: 0; }
+        .tile-inner p { font-size: 15px; color: var(--text-2); margin-bottom: 10px; line-height: 1.65; }
+        .tile-inner p strong { color: var(--text); }
+
+        .feat { position: relative; border-radius: var(--r); padding: 32px 30px; margin: 14px 0; overflow: hidden; }
+        .feat::before { content: ''; position: absolute; inset: 0; border-radius: var(--r); padding: 1px; background: linear-gradient(135deg, var(--accent-1, #ff9f0a) 0%, var(--accent-2, #ff453a) 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+        .feat .feat-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; color: var(--orange); }
+        .feat .feat-title { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin-bottom: 6px; }
+        .feat .feat-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 18px; }
+        .feat a.feat-link { font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; color: var(--orange); transition: opacity 0.15s; }
+        .feat a.feat-link:hover { opacity: 0.8; }
+
+        .icard { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; margin-bottom: 8px; }
+        .icard h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; letter-spacing: -0.01em; }
+        .icard p { font-size: 13.5px; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+        .qcard { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; margin-bottom: 8px; }
+        .qcard .q { font-size: 14.5px; font-weight: 500; color: var(--text); margin-bottom: 6px; padding-left: 14px; border-left: 2px solid var(--orange); font-style: italic; line-height: 1.5; }
+        .qcard p { font-size: 13px; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+        .co { border-radius: var(--r-sm); padding: 16px 18px; margin: 12px 0; font-size: 14px; line-height: 1.6; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--border); }
+        .co .co-t { font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .co a { font-weight: 500; text-decoration: none; }
+        .co a:hover { text-decoration: underline; }
+        .co.blue { background: var(--blue-glow); border-color: rgba(41,151,255,0.18); } .co.blue .co-t { color: var(--blue); } .co.blue a { color: var(--blue); }
+        .co.orange { background: var(--orange-glow); border-color: rgba(255,159,10,0.18); } .co.orange .co-t { color: var(--orange); }
+        .co.green { background: var(--green-glow); border-color: rgba(48,209,88,0.18); } .co.green .co-t { color: var(--green); } .co.green a { color: var(--green); }
+        .co.red { background: var(--red-glow); border-color: rgba(255,69,58,0.18); } .co.red .co-t { color: var(--red); }
+        .co.purple { background: var(--purple-glow); border-color: rgba(191,90,242,0.18); } .co.purple .co-t { color: var(--purple); }
+
+        .aud-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .aud-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px; transition: border-color 0.2s; }
+        .aud-card:hover { border-color: var(--border-hover); }
+        .aud-card .ac-icon { font-size: 22px; margin-bottom: 8px; }
+        .aud-card .ac-name { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+        .aud-card .ac-age { font-size: 11px; color: var(--text-3); margin-bottom: 6px; }
+        .aud-card .ac-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
+
+        .des-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .des-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; }
+        .des-card .des-q { font-size: 13.5px; color: var(--text); font-style: italic; line-height: 1.5; margin-bottom: 8px; font-weight: 500; }
+        .des-card .des-d { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
+
+        .rg { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 6px; }
+        .rc { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-xs); padding: 14px 16px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 12px; transition: all 0.15s; }
+        .rc:hover { background: var(--surface-3); border-color: var(--border-hover); }
+        .rc .ri { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; background: var(--surface-3); border: 1px solid var(--border); }
+        .rc .rn { font-size: 13px; font-weight: 500; }
+        .rc .rd { font-size: 11px; color: var(--text-3); }
+
+        .warn-banner { margin: 12px 0 0; padding: 14px 18px; background: var(--orange-glow); border: 1px solid rgba(255,159,10,0.2); border-radius: var(--r-sm); font-size: 13px; color: var(--text-2); line-height: 1.5; }
+        .warn-banner strong { color: var(--orange); }
+
+        .foot { text-align: center; padding: 28px 20px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border); }
+
+        @media (max-width: 640px) {
+            .hero { padding: 44px 16px 36px; }
+            .wrap { padding: 0 14px 56px; }
+            .tile-inner { padding: 0 18px 24px; }
+            .tile-head { padding: 18px; }
+            .aud-grid, .des-grid, .rg { grid-template-columns: 1fr; }
+            .feat { padding: 24px 20px; }
+        }
+        @keyframes tileIn { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-logo">🐯</div>
+    <h1>Tigrox Tiger Milk King</h1>
+    <p class="hero-sub">Ad Bounty Brief — <span>Wellous</span></p>
+    <div class="hero-links">
+        <a href="https://www.wellous.com" target="_blank" class="hero-pill">🌐 Website</a>
+        <a href="https://www.instagram.com/wellous" target="_blank" class="hero-pill">📸 Instagram</a>
+        <a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=wellous" target="_blank" class="hero-pill">📈 Facebook Ad Library</a>
+    </div>
+</div>
+
+<div class="wrap">
+
+    <!-- ═══ QUALITY NOTE ═══ -->
+    <div class="co orange" style="margin-bottom: 18px;">
+        <div class="co-t">🎯 Quality Over Quantity — Important Note</div>
+        <p>We are <strong>not</strong> looking for spammy, low-effort ad creative. We want high-intent, deeply researched, and emotionally resonant ads that stop the scroll. This audience is highly sophisticated and incredibly skeptical — they have been burned by generic cough syrups that mask symptoms and antibiotics that destroy their gut health. One deeply researched, highly empathetic ad can scale to the moon.</p>
+    </div>
+
+    <!-- ═══ 1. HERO PRODUCT ═══ -->
+    <div class="tile">
+        <div class="tile-head open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <h2><span class="t-icon" style="background:var(--orange-glow);border:1px solid rgba(255,159,10,0.18)">🏆</span> The Hero Product</h2>
+            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+        </div>
+        <div class="tile-body open"><div class="tile-inner">
+            <p><strong>Tigrox Tiger Milk King</strong> is a 20ml tear-and-drink liquid supplement precision-engineered for <strong>kids and adults</strong> suffering from chronic cough, stubborn phlegm, and weakened respiratory immunity.</p>
+            <p>It employs a <strong>"Clear, Repair, Nourish" (清、修、养)</strong> three-in-one mechanism to dissolve deep-seated phlegm, repair damaged mucosa, and replenish lung energy using advanced liquid extraction technology.</p>
+
+            <h3>What Makes It Different</h3>
+            <div class="icard">
+                <h4>⚡ Root-Cause Approach</h4>
+                <p>Unlike OTC cough suppressants that paralyze nerves and trap toxic, bacteria-filled phlegm inside the lungs, Tigrox tackles the root dysfunction — clearing old mucosal garbage and repairing the damaged respiratory lining.</p>
+            </div>
+            <div class="icard">
+                <h4>💧 Superior Absorption</h4>
+                <p>Advanced liquid extraction technology ensures absorption rates far surpassing traditional remedies like sweet rock sugar pear soups (which actually generate more phlegm in deficient bodies).</p>
+            </div>
+            <div class="icard">
+                <h4>📦 Convenience Factor</h4>
+                <p>20ml tear-and-drink packaging bypasses the execution barrier for busy, exhausted middle-aged professionals who don't have time for complicated brewing or pill regimens.</p>
+            </div>
+        </div></div>
+    </div>
+
+    <!-- ═══ 2. TARGET AUDIENCE ═══ -->
+    <div class="tile">
+        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <h2><span class="t-icon" style="background:var(--purple-glow);border:1px solid rgba(191,90,242,0.18)">👥</span> Target Audience</h2>
+            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+        </div>
+        <div class="tile-body"><div class="tile-inner">
+            <p>40+ <strong>"exhausted protectors"</strong> who are the pillars of their families and workplaces, yet secretly harbor deep anxiety about their failing bodies. Extremely cynical due to years of failed treatments, frustrating antibiotic side effects, and the societal stigma of being the "sick person" everyone avoids.</p>
+
+            <h3>The 4 Detailed Avatars</h3>
+            <div class="aud-grid">
+                <div class="aud-card">
+                    <div class="ac-icon">🏢</div>
+                    <div class="ac-name">The Tired Worker</div>
+                    <div class="ac-age">Age: 40–55</div>
+                    <div class="ac-desc">Terrified of coughing in quiet meeting rooms or elevators, sensing everyone avoiding them like a plague. Coughing has damaged their professional dignity. Past solutions like strong cough syrups just made their stomach sour and failed to stop the sudden, explosive urges to cough during crucial moments.</div>
+                </div>
+                <div class="aud-card">
+                    <div class="ac-icon">👨‍👩‍👧‍👦</div>
+                    <div class="ac-name">The Exhausted Mom</div>
+                    <div class="ac-age">Parents of school-age kids</div>
+                    <div class="ac-desc">Her kids keep falling sick, visiting the clinic every month. She just wants to sleep after a long day, but children have constant infections from school, resulting in weakened lungs. They've tried antibiotics, but it wrecked their gut flora — a miserable cycle of getting sick every time someone in school gets infected.</div>
+                </div>
+                <div class="aud-card">
+                    <div class="ac-icon">🛏️</div>
+                    <div class="ac-name">The Sleepless Sufferer</div>
+                    <div class="ac-age">Age: 40+</div>
+                    <div class="ac-desc">Every night is a battle against a throat that feels glued shut with un-coughable, un-swallowable phlegm. Repeatedly awakened by intense throat tickles, leading to chest-tearing coughs that leave them exhausted and totally unproductive the next day. Desperately want a full night's sleep but skeptical of slow-acting traditional medicines.</div>
+                </div>
+                <div class="aud-card">
+                    <div class="ac-icon">📉</div>
+                    <div class="ac-name">The Anxious Smoker</div>
+                    <div class="ac-age">Age: 50+</div>
+                    <div class="ac-desc">Their silent terror: that their "minor" chronic cough is a one-way ticket to COPD, emphysema, or lung cancer. They fear becoming a financial burden hooked to an oxygen tank, but can't stop the habit. "Just one more cigarette." They've wasted money on lung CT scans and luxury remedies like cordyceps that don't work.</div>
+                </div>
+            </div>
+        </div></div>
+    </div>
+
+    <!-- ═══ 3. CORE DESIRES ═══ -->
+    <div class="tile">
+        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <h2><span class="t-icon" style="background:var(--red-glow);border:1px solid rgba(255,69,58,0.18)">❤️</span> Core Desires — Use as Ad Hooks</h2>
+            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+        </div>
+        <div class="tile-body"><div class="tile-inner">
+            <div class="co blue" style="margin-bottom:14px">
+                <div class="co-t">💡 Strategy Tip</div>
+                Choose <strong>ONE</strong> of these core desires and build your entire ad around it. Don't try to cram every benefit into a single video. Hook them with the visceral pain, agitate that specific exhaustion, then seamlessly introduce the "Clear, Repair, Nourish" mechanism.
+            </div>
+
+            <div class="des-grid">
+                <div class="des-card">
+                    <div class="des-q">"I want to stop feeling like a walking biohazard at work."</div>
+                    <div class="des-d">The social stigma of being the chronic cougher in a modern office is devastating to their middle-aged dignity. Tigrox's targeted phlegm-dissolving mechanism eliminates sudden, loud coughing fits.</div>
+                </div>
+                <div class="des-card">
+                    <div class="des-q">"I want to sleep through the night like a baby again."</div>
+                    <div class="des-d">Being jolted awake by a scratching throat turns nights into torture and days into foggy, unproductive messes. Our formula clears irritants and repairs the mucosa, unplugging the respiratory "alarm system."</div>
+                </div>
+                <div class="des-card">
+                    <div class="des-q">"I want to clear this disgusting glue from my throat."</div>
+                    <div class="des-d">Waking up every morning needing to frantically clear stubborn, sticky phlegm is physically and mentally nauseating. The liquid extraction technology deeply penetrates to dissolve deep-seated old phlegm.</div>
+                </div>
+                <div class="des-card">
+                    <div class="des-q">"I want to stop getting sick every time the wind blows."</div>
+                    <div class="des-d">They feel cursed, catching a cold the moment someone sneezes. Tigrox doesn't just treat the cough — it "nourishes" and replenishes lung energy, rebuilding an immune fortress.</div>
+                </div>
+                <div class="des-card">
+                    <div class="des-q">"I want to avoid draining my life savings in the ICU."</div>
+                    <div class="des-d">Paralyzing dread that ignoring their chronic cough leads to irreversible COPD and financial ruin. A preventative, root-cause solution protects their future wealth and family.</div>
+                </div>
+                <div class="des-card">
+                    <div class="des-q">"I want to prove I am not over the hill yet."</div>
+                    <div class="des-d">They reject the belief that "the machine is just old" and are terrified of becoming useless. Restoring respiratory health proves they're still the strong, reliable family pillar.</div>
+                </div>
+            </div>
+        </div></div>
+    </div>
+
+    <!-- ═══ 4. WINNING ANGLES ═══ -->
+    <div class="tile">
+        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <h2><span class="t-icon" style="background:var(--green-glow);border:1px solid rgba(48,209,88,0.18)">🎯</span> Angles That Win for This Brand</h2>
+            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+        </div>
+        <div class="tile-body"><div class="tile-inner">
+            <p>Our most successful angles lean heavily into <strong>visceral, highly relatable visual hooks</strong> — like the "pain mask" of trying to hold in a cough during a meeting or the misery of a 3 AM coughing fit.</p>
+            <p>Winning ads immediately <strong>invalidate false solutions</strong> (like exposing the danger of cough syrups trapping toxins) and pivot to our "Clear, Repair, Nourish" mechanism.</p>
+
+            <div class="co red" style="margin-top:14px">
+                <div class="co-t">🚫 What NOT to Do</div>
+                Do not use lazy, generic hooks. This audience is highly cynical. If your ad feels like another cheap "magic pill" or an "IQ tax", they will scroll past instantly. You must lead with empathy for the "exhausted protector" and back it up with a logical, systematic health transformation.
+            </div>
+        </div></div>
+    </div>
+
+    <!-- ═══ 5. COMPLIANCE ═══ -->
+    <div class="tile">
+        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <h2><span class="t-icon" style="background:var(--red-glow);border:1px solid rgba(255,69,58,0.18)">⚖️</span> Compliance — Read Before Making Ads</h2>
+            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+        </div>
+        <div class="tile-body"><div class="tile-inner">
+            <p>Wellous takes this very seriously. Because Wellous sells a dietary health supplement, there are <strong>strict rules</strong> about what you can say. You cannot make random claims.</p>
+
+            <div class="co orange">
+                <div class="co-t">⚠️ Required Disclaimer</div>
+                Every ad must include this exact disclaimer:<br><br>
+                <strong>"These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease."</strong>
+            </div>
+
+            <div class="icard">
+                <h4>🎬 Video Ads</h4>
+                <p>Display the disclaimer on screen during the <strong>last 3+ seconds</strong>.</p>
+            </div>
+            <div class="icard">
+                <h4>🖼️ Image Ads</h4>
+                <p>Overlay the disclaimer at the <strong>bottom of the image</strong>.</p>
+            </div>
+        </div></div>
+    </div>
+
+    <!-- ═══ 6. RESOURCES ═══ -->
+    <div class="tile">
+        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <h2><span class="t-icon" style="background:var(--blue-glow);border:1px solid rgba(41,151,255,0.18)">📚</span> Essential Resources</h2>
+            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+        </div>
+        <div class="tile-body"><div class="tile-inner">
+
+            <div class="feat" style="--accent-1:#2997ff;--accent-2:#64d2ff">
+                <div class="feat-tag">Study the Winners</div>
+                <div class="feat-title">Wellous — Facebook Ad Library</div>
+                <div class="feat-desc">Browse every active ad running right now. Study the hooks, formats, and angles. Don't just scroll — analyze every piece. What is the hook? What emotion does it trigger? Why would a skeptical user stop scrolling?</div>
+                <a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=wellous" target="_blank" class="feat-link">Open Facebook Ad Library →</a>
+            </div>
+
+            <div class="feat" style="--accent-1:#30d158;--accent-2:#64d2ff">
+                <div class="feat-tag" style="color:var(--green)">Essential Reading</div>
+                <div class="feat-title">Comprehensive Market Research</div>
+                <div class="feat-desc">A deep analysis of the market, customer psychology, and competitor landscape for Wellous.</div>
+                <a href="#" class="feat-link" style="color:var(--green)">Open Market Research →</a>
+            </div>
+
+            <div class="feat" style="--accent-1:#bf5af2;--accent-2:#ff453a">
+                <div class="feat-tag" style="color:var(--purple)">Use Before Submitting</div>
+                <div class="feat-title">Wellous — Compliance Checker</div>
+                <div class="feat-desc">Run your ad through this prompt before submitting to ensure copy and claims are compliant.</div>
+                <a href="#" class="feat-link" style="color:var(--purple)">Open Compliance Checker →</a>
+            </div>
+
+        </div></div>
+    </div>
+
+</div>
+
+<div class="foot">Wellous — Tigrox Tiger Milk King Ad Bounty Brief</div>
+
+</body>
+</html>
