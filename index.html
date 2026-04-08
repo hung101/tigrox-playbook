@@ -1,713 +1,216 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tigrox Tiger Milk King — Ad Bounty Playbook v1.0</title>
-    <style>
-        :root {
-            --bg: #000000;
-            --surface: #111111;
-            --surface-2: #1a1a1a;
-            --surface-3: #222222;
-            --border: #2a2a2a;
-            --border-hover: #3a3a3a;
-            --text: #f5f5f7;
-            --text-2: #a1a1a6;
-            --text-3: #6e6e73;
-            --blue: #2997ff;
-            --blue-glow: rgba(41,151,255,0.15);
-            --green: #30d158;
-            --green-glow: rgba(48,209,88,0.12);
-            --orange: #ff9f0a;
-            --orange-glow: rgba(255,159,10,0.12);
-            --red: #ff453a;
-            --red-glow: rgba(255,69,58,0.10);
-            --purple: #bf5af2;
-            --purple-glow: rgba(191,90,242,0.12);
-            --teal: #64d2ff;
-            --teal-glow: rgba(100,210,255,0.10);
-            --amber: #ffd60a;
-            --amber-glow: rgba(255,214,10,0.12);
-            --r: 20px;
-            --r-sm: 14px;
-            --r-xs: 10px;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.58; font-size: 15px; -webkit-font-smoothing: antialiased; }
-
-        .hero { padding: 60px 24px 52px; text-align: center; }
-        .hero-logo { width: 80px; height: 80px; border-radius: 18px; margin: 0 auto 22px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--surface); border: 1px solid var(--border); font-size: 36px; }
-        .hero h1 { font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 600; letter-spacing: -0.04em; margin-bottom: 4px; }
-        .hero-sub { color: var(--text-3); font-size: 17px; font-weight: 400; letter-spacing: -0.01em; }
-        .hero-sub span { color: var(--orange); }
-        .hero-links { display: flex; justify-content: center; gap: 6px; margin-top: 18px; flex-wrap: wrap; }
-        .hero-pill { display: inline-flex; align-items: center; gap: 6px; padding: 7px 15px; background: var(--surface); border: 1px solid var(--border); border-radius: 50px; text-decoration: none; color: var(--text-2); font-size: 13px; font-weight: 500; transition: all 0.2s; }
-        .hero-pill:hover { border-color: var(--border-hover); color: var(--text); background: var(--surface-2); }
-
-        .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px 72px; }
-
-        .tile { background: var(--surface); border-radius: var(--r); overflow: hidden; margin-bottom: 12px; border: 1px solid var(--border); transition: border-color 0.25s; animation: tileIn 0.5s cubic-bezier(0.4,0,0.2,1) both; }
-        .tile:hover { border-color: var(--border-hover); }
-        .tile:nth-child(1) { animation-delay: 0s; } .tile:nth-child(2) { animation-delay: 0.06s; } .tile:nth-child(3) { animation-delay: 0.12s; } .tile:nth-child(4) { animation-delay: 0.18s; } .tile:nth-child(5) { animation-delay: 0.24s; } .tile:nth-child(6) { animation-delay: 0.3s; } .tile:nth-child(7) { animation-delay: 0.36s; } .tile:nth-child(8) { animation-delay: 0.42s; } .tile:nth-child(9) { animation-delay: 0.48s; } .tile:nth-child(10) { animation-delay: 0.54s; } .tile:nth-child(11) { animation-delay: 0.6s; } .tile:nth-child(12) { animation-delay: 0.66s; } .tile:nth-child(13) { animation-delay: 0.72s; } .tile:nth-child(14) { animation-delay: 0.78s; }
-        .tile-head { display: flex; align-items: center; justify-content: space-between; padding: 22px 26px; cursor: pointer; user-select: none; }
-        .tile-head h2 { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; gap: 12px; }
-        .tile-head .t-icon { width: 32px; height: 32px; border-radius: var(--r-xs); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-        .tile-head .chev { width: 20px; height: 20px; color: var(--text-3); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-        .tile-head.open .chev { transform: rotate(180deg); }
-        .tile-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1); }
-        .tile-body.open { max-height: 60000px; }
-        .tile-inner { padding: 0 26px 28px; }
-        .tile-inner h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin: 26px 0 10px; }
-        .tile-inner h3:first-child { margin-top: 0; }
-        .tile-inner p { font-size: 15px; color: var(--text-2); margin-bottom: 10px; line-height: 1.65; }
-        .tile-inner p strong { color: var(--text); }
-
-        .feat { position: relative; border-radius: var(--r); padding: 32px 30px; margin: 14px 0; overflow: hidden; }
-        .feat::before { content: ''; position: absolute; inset: 0; border-radius: var(--r); padding: 1px; background: linear-gradient(135deg, var(--accent-1, #ff9f0a) 0%, var(--accent-2, #ff453a) 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
-        .feat .feat-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; color: var(--orange); }
-        .feat .feat-title { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin-bottom: 6px; }
-        .feat .feat-desc { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 18px; }
-        .feat a.feat-link { font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; color: var(--orange); transition: opacity 0.15s; }
-        .feat a.feat-link:hover { opacity: 0.8; }
-
-        .icard { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; margin-bottom: 8px; }
-        .icard h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; letter-spacing: -0.01em; }
-        .icard p { font-size: 13.5px; color: var(--text-2); margin: 0; line-height: 1.6; }
-
-        .qcard { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; margin-bottom: 8px; }
-        .qcard .q { font-size: 14.5px; font-weight: 500; color: var(--text); margin-bottom: 6px; padding-left: 14px; border-left: 2px solid var(--orange); font-style: italic; line-height: 1.5; }
-        .qcard p { font-size: 13px; color: var(--text-2); margin: 0; line-height: 1.6; }
-
-        .co { border-radius: var(--r-sm); padding: 16px 18px; margin: 12px 0; font-size: 14px; line-height: 1.6; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--border); }
-        .co .co-t { font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-        .co a { font-weight: 500; text-decoration: none; }
-        .co a:hover { text-decoration: underline; }
-        .co.blue { background: var(--blue-glow); border-color: rgba(41,151,255,0.18); } .co.blue .co-t { color: var(--blue); } .co.blue a { color: var(--blue); }
-        .co.orange { background: var(--orange-glow); border-color: rgba(255,159,10,0.18); } .co.orange .co-t { color: var(--orange); }
-        .co.green { background: var(--green-glow); border-color: rgba(48,209,88,0.18); } .co.green .co-t { color: var(--green); } .co.green a { color: var(--green); }
-        .co.red { background: var(--red-glow); border-color: rgba(255,69,58,0.18); } .co.red .co-t { color: var(--red); }
-        .co.purple { background: var(--purple-glow); border-color: rgba(191,90,242,0.18); } .co.purple .co-t { color: var(--purple); }
-
-        .aud-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .aud-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px; transition: border-color 0.2s; }
-        .aud-card:hover { border-color: var(--border-hover); }
-        .aud-card .ac-icon { font-size: 22px; margin-bottom: 8px; }
-        .aud-card .ac-name { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 2px; }
-        .aud-card .ac-age { font-size: 11px; color: var(--text-3); margin-bottom: 6px; }
-        .aud-card .ac-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
-
-        .des-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .des-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 16px 18px; }
-        .des-card .des-q { font-size: 13.5px; color: var(--text); font-style: italic; line-height: 1.5; margin-bottom: 8px; font-weight: 500; }
-        .des-card .des-d { font-size: 12.5px; color: var(--text-2); line-height: 1.5; }
-
-        .rg { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 6px; }
-        .rc { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-xs); padding: 14px 16px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 12px; transition: all 0.15s; }
-        .rc:hover { background: var(--surface-3); border-color: var(--border-hover); }
-        .rc .ri { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; background: var(--surface-3); border: 1px solid var(--border); }
-        .rc .rn { font-size: 13px; font-weight: 500; }
-        .rc .rd { font-size: 11px; color: var(--text-3); }
-
-        .warn-banner { margin: 12px 0 0; padding: 14px 18px; background: var(--orange-glow); border: 1px solid rgba(255,159,10,0.2); border-radius: var(--r-sm); font-size: 13px; color: var(--text-2); line-height: 1.5; }
-        .warn-banner strong { color: var(--orange); }
-
-        .do-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .do-card { border-radius: var(--r-sm); padding: 14px 16px; font-size: 13.5px; line-height: 1.55; }
-        .do-card.do-yes { background: var(--green-glow); border: 1px solid rgba(48,209,88,0.18); color: var(--text-2); }
-        .do-card.do-yes strong { color: var(--green); }
-        .do-card.do-no { background: var(--red-glow); border: 1px solid rgba(255,69,58,0.18); color: var(--text-2); }
-        .do-card.do-no strong { color: var(--red); }
-
-        .hook-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 14px 18px; margin-bottom: 8px; font-size: 14px; color: var(--text); font-weight: 500; line-height: 1.55; }
-
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 18px 16px; text-align: center; }
-        .stat-card .stat-num { font-size: 28px; font-weight: 700; color: var(--orange); margin-bottom: 4px; letter-spacing: -0.03em; }
-        .stat-card .stat-label { font-size: 12px; color: var(--text-2); line-height: 1.4; }
-
-        .pillar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .pillar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 18px; }
-        .pillar-card .pillar-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-        .pillar-card .pillar-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.55; }
-
-        .comp-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 18px; margin-bottom: 10px; }
-        .comp-card .comp-name { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-        .comp-card .comp-type { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-        .comp-card .comp-desc { font-size: 13px; color: var(--text-2); line-height: 1.55; }
-
-        .foot { text-align: center; padding: 28px 20px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border); }
-
-        @media (max-width: 640px) {
-            .hero { padding: 44px 16px 36px; }
-            .wrap { padding: 0 14px 56px; }
-            .tile-inner { padding: 0 18px 24px; }
-            .tile-head { padding: 18px; }
-            .aud-grid, .des-grid, .rg, .do-grid, .stat-grid, .pillar-grid { grid-template-columns: 1fr; }
-            .feat { padding: 24px 20px; }
-        }
-        @keyframes tileIn { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tigrox Tiger Milk King — Ad Bounty Playbook v1.0</title>
+  <style>
+:root {
+  --bg: #07111f;
+  --bg-2: #0c1628;
+  --surface: rgba(13, 22, 40, 0.82);
+  --surface-2: rgba(18, 31, 55, 0.92);
+  --surface-3: rgba(28, 42, 70, 0.95);
+  --border: rgba(255,255,255,0.1);
+  --border-2: rgba(255,255,255,0.16);
+  --text: #f5f7fb;
+  --muted: #b8c3d9;
+  --soft: #8ea0bf;
+  --gold: #f6c453;
+  --gold-2: #ff9f43;
+  --blue: #58a6ff;
+  --green: #59d38c;
+  --red: #ff7b7b;
+  --shadow: 0 24px 70px rgba(0,0,0,0.32);
+  --radius: 24px;
+  --radius-sm: 18px;
+  --max: 1180px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(246,196,83,0.14), transparent 30%),
+    radial-gradient(circle at top right, rgba(88,166,255,0.16), transparent 26%),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+  color: var(--text);
+  line-height: 1.65;
+}
+a { color: inherit; }
+.wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+.hero {
+  padding: 54px 0 26px;
+}
+.hero-card {
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(19,31,55,.9), rgba(11,19,34,.96));
+  backdrop-filter: blur(16px);
+  border-radius: 32px;
+  padding: 34px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -80px -80px auto;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(246,196,83,.22), transparent 68%);
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 800;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 1.02;
+  margin: 14px 0 10px;
+  letter-spacing: -.04em;
+}
+.hero p.lead {
+  max-width: 820px;
+  color: var(--muted);
+  font-size: 1.08rem;
+  margin: 0 0 22px;
+}
+.badges, .stat-grid, .nav-grid, .grid, .cards, .persona-grid, .desire-grid, .timeline, .dual {
+  display: grid;
+  gap: 14px;
+}
+.badges { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 24px; }
+.badge, .stat, .mini-card, .card, .persona, .desire, .time-item, .dual-col, .quote-box, .warning {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(10px);
+}
+.badge { padding: 16px 18px; }
+.badge .label, .stat .label, .mini-card .label { color: var(--soft); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
+.badge .value, .stat .value { margin-top: 6px; font-weight: 700; }
+.stat-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin: 26px 0 0; }
+.stat { padding: 16px 18px; }
+.nav-shell { position: sticky; top: 0; z-index: 20; padding: 14px 0; backdrop-filter: blur(10px); }
+.nav-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  background: rgba(8,15,28,.72);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 12px;
+}
+.nav-grid a {
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: var(--muted);
+  transition: .18s ease;
+  border: 1px solid transparent;
+  font-size: .95rem;
+}
+.nav-grid a:hover { color: var(--text); border-color: var(--border); background: rgba(255,255,255,.04); }
+main { padding: 20px 0 70px; }
+.section {
+  margin: 22px 0;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(11,18,32,.92), rgba(9,15,26,.96));
+  box-shadow: var(--shadow);
+}
+.section-head {
+  display: flex; align-items: center; gap: 14px;
+  padding: 26px 28px 14px;
+}
+.icon {
+  width: 46px; height: 46px; border-radius: 16px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, rgba(246,196,83,.18), rgba(88,166,255,.18));
+  border: 1px solid var(--border-2);
+  font-size: 22px;
+}
+.section h2 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); letter-spacing: -.03em; }
+.section-body { padding: 0 28px 28px; }
+.section-body > p { color: var(--muted); }
+.feature {
+  padding: 24px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(246,196,83,.12), rgba(88,166,255,.09));
+  border: 1px solid var(--border-2);
+  margin-bottom: 16px;
+}
+.feature .eyebrow { color: var(--gold); text-transform: uppercase; font-size: 12px; letter-spacing: .1em; font-weight: 800; }
+.feature h3 { margin: 8px 0 10px; font-size: 1.5rem; }
+.feature p { margin: 0; color: var(--muted); }
+.grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.mini-card { padding: 18px; }
+.mini-card strong { display: block; margin: 8px 0 6px; font-size: 1rem; }
+.mini-card p { margin: 0; color: var(--muted); font-size: .96rem; }
+.cards, .persona-grid, .desire-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.card, .persona, .desire, .time-item, .dual-col { padding: 18px 18px 16px; }
+.card h4, .persona h4, .desire h4, .dual-col h4 { margin: 0 0 8px; font-size: 1.03rem; }
+.card p, .persona p, .desire p, .dual-col li, .time-item p { margin: 0; color: var(--muted); }
+.persona .top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.persona .emoji { font-size: 1.45rem; }
+.quote-box { padding: 16px 18px; margin: 16px 0; }
+.quote-box ul, .list ul, .dual-col ul { margin: 0; padding-left: 18px; }
+.quote-box li, .list li, .dual-col li { margin: 8px 0; color: var(--muted); }
+.list h3, .subhead { margin: 18px 0 8px; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--soft); }
+.timeline { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.time-item h4 { margin: 0 0 8px; }
+.dual { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.warning {
+  padding: 16px 18px;
+  border-color: rgba(255,123,123,.28);
+  background: rgba(125,30,45,.18);
+  color: #ffd7d7;
+  margin: 16px 0;
+}
+.warning strong { color: #fff; }
+.footer {
+  color: var(--soft);
+  text-align: center;
+  padding: 6px 0 46px;
+  font-size: .92rem;
+}
+@media (max-width: 700px) {
+  .hero-card, .section-head, .section-body { padding-left: 18px; padding-right: 18px; }
+  .hero-card { padding-top: 26px; }
+  .nav-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
 </head>
 <body>
-
-<!-- HERO -->
-<div class="hero">
-    <div class="hero-logo">🐯</div>
-    <h1>Tigrox Tiger Milk King</h1>
-    <p class="hero-sub">Ad Bounty Playbook v1.0 — <span>Wellous</span></p>
-    <div class="hero-links">
-        <a href="https://www.wellous.com" target="_blank" class="hero-pill">🌐 Website</a>
-        <a href="https://www.instagram.com/wellous" target="_blank" class="hero-pill">📸 Instagram</a>
+  <div class="wrap hero">
+    <div class="hero-card">
+      <div class="kicker">🫁 Ad Bounty Playbook</div>
+      <h1>Tigrox Tiger Milk King (TMK)</h1>
+      <p class="lead">A premium direct-response playbook for cough, airway comfort, lung care, and family relief.</p>
+      <div class="badges"><div class='badge'><div class='label'>Positioning</div><div class='value'>Market-leading Tiger Milk Mushroom lung support drink</div></div><div class='badge'><div class='label'>Audience</div><div class='value'>Cough, smoker, post-viral, caregiver segments</div></div><div class='badge'><div class='label'>Creative mode</div><div class='value'>Premium empathy + root-cause sales narrative</div></div></div>
+      <div class="stat-grid"><div class='stat'><div class='label'>Daily use</div><div class='value'>20ml once a day</div></div><div class='stat'><div class='label'>Format</div><div class='value'>Liquid botanical nutritional drink</div></div><div class='stat'><div class='label'>Taste</div><div class='value'>Sweet-sour citrus profile</div></div><div class='stat'><div class='label'>Offer frame</div><div class='value'>Family bundle + risk-free refund assurance</div></div></div>
     </div>
-</div>
+  </div>
 
-<div class="wrap">
+  <div class="wrap nav-shell">
+    <nav class="nav-grid"><a href='#product'>🏆 Hero Product Snapshot</a><a href='#brand'>💎 Brand Perception &amp; Emotional Territory</a><a href='#mechanism'>🔬 Main Ingredient Mechanism of Action</a><a href='#audience'>🎯 Target Audience Personas</a><a href='#desires'>🫁 Core Desires to Sell Into</a><a href='#triggers'>⚡ Trigger Events That Create Buyers</a><a href='#creative'>🔥 Winning Creative Directions</a><a href='#claims'>⚖️ Claims Rules &amp; Compliance Guardrails</a><a href='#competitors'>⚔️ Competitor Framing</a><a href='#objections'>🧠 Objection Handling &amp; Real Customer Language</a><a href='#matrix'>🏛️ Positioning Matrix, Do/Don’t, and Sellable Numbers</a></nav>
+  </div>
 
-    <!-- ═══ 1. BIG OPPORTUNITY / 大机会 ═══ -->
-    <div class="tile">
-        <div class="tile-head open" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--orange-glow);border:1px solid rgba(255,159,10,0.18)">🚀</span> Big Opportunity / 大机会</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body open"><div class="tile-inner">
-            <p>马来西亚的呼吸道健康市场正面临一个<strong>巨大的、尚未被满足的需求</strong>。数百万人深受慢性咳嗽、顽固痰液和反复呼吸道感染的困扰——从繁忙的上班族到学龄儿童的父母，从老烟枪到年迈的长辈。</p>
-            <p>传统的解决方案——止咳糖浆、抗生素、民间偏方——<strong>只治标不治本</strong>。止咳糖浆麻痹神经，把充满细菌的毒痰困在肺里；抗生素破坏肠道菌群，导致免疫力越来越差的恶性循环；冰糖炖雪梨等传统偏方在体虚的人身上反而会产生更多痰液。</p>
-            <p>这个市场充满了<strong>疲惫、愤世嫉俗、深感被骗的消费者</strong>——他们花了无数钱却得不到真正的解决方案。这正是 Tigrox Tiger Milk King 的巨大机会：一个真正从根源出发、系统性解决问题的产品，进入一个渴望被拯救的市场。</p>
-        </div></div>
-    </div>
+  <main class="wrap">
+    <section class="section" id="overview">
+      <div class="section-head"><div class="icon">🚀</div><h2>Big Opportunity — Read This First</h2></div>
+      <div class="section-body"><p>Malaysia&#x27;s cough and respiratory wellness market is huge. Families worry when a child keeps coughing at night, smokers fear what years of damage may be doing, and post-viral cough sufferers feel trapped in a symptom that refuses to end.</p><p>That is the opening for Wellous Tigrox Tiger Milk King. The product is positioned as a premium, natural, easy-to-drink lung support liquid that feels more practical than bitter traditional brews and more meaningful than cheap red syrups that only numb symptoms for a while.</p><p>The sales story is not just “stop coughing.” It is about helping people breathe more freely, sleep without fear, protect family members, and feel they are finally addressing the root of the problem.</p></div>
+    </section>
+    <section class='section' id='product'><div class='section-head'><div class='icon'>🏆</div><h2>Hero Product Snapshot</h2></div><div class='section-body'><div class='feature'><div class='eyebrow'>Hero Product</div><h3>What TMK is</h3><p>Wellous Tigrox Tiger Milk King is a once-daily 20ml botanical lung wellness drink built around Tiger Milk Mushroom (Lignosus rhinocerus), licorice, and citrus. It is presented as a premium, fast-to-take liquid that avoids the pain points of bitter herbal decoctions and hard-to-swallow pills.</p></div><div class='grid'><div class='mini-card'><div class='label'>Key point</div><strong>Pleasant taste</strong><p>Designed to feel like a fruity liquid rather than “medicine punishment,” which matters for children and older adults.</p></div><div class='mini-card'><div class='label'>Key point</div><strong>Root-cause frame</strong><p>Positioned as helping clear the lungs and soothe inflamed airways instead of merely suppressing the cough reflex.</p></div><div class='mini-card'><div class='label'>Key point</div><strong>Family-safe perception</strong><p>No sleepy syrup identity, no “heavy chemical” impression, and suitable for broad household use in messaging.</p></div><div class='mini-card'><div class='label'>Key point</div><strong>Premium-value logic</strong><p>Expensive upfront, but framed as cheaper than repeated clinic visits, missed work, wasted remedies, and family stress.</p></div></div></div></section><section class='section' id='brand'><div class='section-head'><div class='icon'>💎</div><h2>Brand Perception &amp; Emotional Territory</h2></div><div class='section-body'><p>The brand should feel premium, credible, calm, and deeply empathetic. The voice is not a loud miracle-seller. It should sound like a warm, high-trust respiratory expert who understands how draining chronic coughing can be.</p><div class='quote-box'><ul><li>Move the audience from fear, embarrassment, and sleeplessness → to clear breathing, calm mornings, and family peace.</li><li>Make them feel past failures were not their fault; they were simply using solutions that never addressed the real issue.</li><li>Treat Tiger Milk Mushroom as a prized Malaysian ingredient with heritage, seriousness, and modern value.</li></ul></div><div class='list'><h3>What everyone should know about the brand</h3><ul><li>Uses a prized Tiger Milk Mushroom story: cultivated for 270 days and slowly simmered at 65°C to signal care and potency.</li><li>Sold as a genuine root-support product, not a drowsy sugar syrup.</li><li>Special advantage: easy enough to give without daily battles at home.</li></ul></div></div></section><section class='section' id='mechanism'><div class='section-head'><div class='icon'>🔬</div><h2>Main Ingredient Mechanism of Action</h2></div><div class='section-body'><div class='cards'><div class='card'><h4>Targeted clearing</h4><p>Tiger Milk Mushroom is framed as reaching the airways, easing inflammation, and helping loosen stubborn phlegm and long-term residue in the lungs.</p></div><div class='card'><h4>Soothing and repair</h4><p>Licorice is positioned as the fast comfort layer: soothing the throat, reducing irritation, and helping the mucosal lining recover after persistent coughing.</p></div><div class='card'><h4>Long-term resilience</h4><p>Daily 20ml use is framed as strengthening respiratory defense over time, building a “protective coat” for the lungs against future irritation.</p></div></div></div></section><section class='section' id='audience'><div class='section-head'><div class='icon'>🎯</div><h2>Target Audience Personas</h2></div><div class='section-body'><div class='persona-grid'><div class='persona'><div class='top'><div class='emoji'>🚬</div><h4>The Stubborn Smoker</h4></div><p>Morning black phlegm, hidden fear of long-term damage, and refusal to openly admit vulnerability.</p></div><div class='persona'><div class='top'><div class='emoji'>🤱</div><h4>The Exhausted Mother</h4></div><p>Sleepless nights, recurring child cough episodes, guilt over forcing bitter medicine, and fear of escalation.</p></div><div class='persona'><div class='top'><div class='emoji'>💼</div><h4>The Post-Viral Office Worker</h4></div><p>Months of lingering dry cough, embarrassment in meetings, fear of being judged as contagious, and lost confidence.</p></div><div class='persona'><div class='top'><div class='emoji'>👵</div><h4>The Dutiful Adult Child</h4></div><p>Worry about coughing parents at night, readiness to spend for the best solution, and frustration when elders reject bitter remedies.</p></div></div><p>Core audience range: Malaysian adults aged roughly 25–65 with enough spending power to choose a premium solution when fear, guilt, frustration, or repeated failure makes the problem feel urgent.</p></div></section><section class='section' id='desires'><div class='section-head'><div class='icon'>🫁</div><h2>Core Desires to Sell Into</h2></div><div class='section-body'><div class='desire-grid'><div class='desire'><h4>Sleep through the night without fear</h4><p>Sell relief from anxious midnight listening and chronic sleep disruption.</p></div><div class='desire'><h4>Breathe deeply without triggering a coughing fit</h4><p>Restore dignity at work, in public, and during daily movement.</p></div><div class='desire'><h4>Stop fighting with family over medicine</h4><p>Taste and convenience become emotional conversion tools, not secondary features.</p></div><div class='desire'><h4>Feel like I am protecting them, not failing them</h4><p>Premium ingredients help caregivers feel they are finally giving loved ones the best.</p></div><div class='desire'><h4>Repair the damage quietly</h4><p>For smokers, make it about private restoration, not public scolding or forced quitting.</p></div></div></div></section><section class='section' id='triggers'><div class='section-head'><div class='icon'>⚡</div><h2>Trigger Events That Create Buyers</h2></div><div class='section-body'><div class='timeline'><div class='time-item'><h4>2 AM barking cough</h4><p>A parent hears a frightening hollow cough and wants something stronger than ordinary syrup immediately.</p></div><div class='time-item'><h4>The elevator stare</h4><p>A dry cough erupts in a quiet lift or meeting room and creates social shame.</p></div><div class='time-item'><h4>Black phlegm in the sink</h4><p>A smoker sees dark sputum in the morning and feels a sudden wave of health fear.</p></div><div class='time-item'><h4>Rejected bitter medicine</h4><p>Hours spent preparing herbal remedies end in refusal, waste, and frustration.</p></div><div class='time-item'><h4>The cold that never ends</h4><p>Weeks or months after recovery, the throat still feels raw and the cough still lingers.</p></div></div></div></section><section class='section' id='creative'><div class='section-head'><div class='icon'>🔥</div><h2>Winning Creative Directions</h2></div><div class='section-body'><div class='dual'><div class='dual-col'><h4>Current winning formats</h4><ul><li>Short pain-point videos built around frightening cough sounds.</li><li>Educational explainer content: why sweet syrups only “trick” the throat.</li><li>Long-form testimonials, family stories, and doctor-style soft-sell VSLs.</li></ul></div><div class='dual-col'><h4>Angles the brand wants</h4><ul><li>Mechanism angle — explain why 20ml liquid absorption matters.</li><li>Symptom angle — black phlegm, midnight cough, lingering post-viral irritation.</li><li>Identity restoration angle — restore dignity, confidence, and breathing ease.</li><li>Root-cause angle — contrast TMK with symptom-masking red syrups.</li></ul></div></div><div class='list'><h3>High-converting hook directions</h3><ul><li>The Sound of Fear — start with a cough that instantly activates caregiver anxiety.</li><li>The Toilet Sink Confession — speak directly to smokers who see black phlegm every morning.</li><li>The Deceptive Red Syrup — challenge the “just take syrup” assumption.</li><li>The Failed TCM Hook — “Three hours of boiling, one second to spit it out.”</li><li>The 100-Day Post-Covid Hook — lingering dry cough long after the virus is gone.</li><li>The Guilty Daughter Hook — hearing a parent cough through the wall at night.</li><li>The Tear-Open Liquid Hook — convenience, portability, and immediate usability.</li></ul></div></div></section><section class='section' id='claims'><div class='section-head'><div class='icon'>⚖️</div><h2>Claims Rules &amp; Compliance Guardrails</h2></div><div class='section-body'><div class='dual'><div class='dual-col'><h4>You can say</h4><ul><li>Helps soothe the throat and ease cough discomfort.</li><li>Traditionally used to support lung and respiratory wellness.</li><li>Easy-to-drink liquid with a taste children may accept more readily.</li><li>Contains natural botanicals such as Tiger Milk Mushroom, licorice, and citrus.</li><li>A daily support option for smokers and people bothered by recurrent cough.</li></ul></div><div class='dual-col'><h4>You cannot say</h4><ul><li>Do not claim to 100% cure asthma, pneumonia, or severe diseases.</li><li>Do not use miracle language like “magic cure” or “medical miracle.”</li><li>Do not say this replaces prescribed medicine.</li><li>Do not imply people can keep smoking without consequences because of the product.</li></ul></div></div><div class='warning'><strong>Warning:</strong> Avoid disgusting imagery, gore, and cheap miracle-seller energy. The brand must stay premium and medically sensible.</div><div class='list'><h3>Words to avoid completely</h3><ul><li>Miracle cure</li><li>Cures everything</li><li>Lung cancer killer</li><li>100% eradication</li><li>Instant one-second effect</li><li>Medical miracle</li><li>Cheap</li><li>Budget substitute</li></ul></div></div></section><section class='section' id='competitors'><div class='section-head'><div class='icon'>⚔️</div><h2>Competitor Framing</h2></div><div class='section-body'><div class='cards'><div class='card'><h4>Traditional herbal brews</h4><p>Too troublesome, too bitter, too slow, and often rejected by the person who actually needs to drink them.</p></div><div class='card'><h4>Cheap over-the-counter syrups</h4><p>Symptom masking, sleepy-child associations, chemical perception, and rebound frustration when the cough returns.</p></div><div class='card'><h4>Hospital visits &amp; nebulizer routines</h4><p>Expensive, stressful, time-consuming, and emotionally hard on both children and caregivers.</p></div></div></div></section><section class='section' id='objections'><div class='section-head'><div class='icon'>🧠</div><h2>Objection Handling &amp; Real Customer Language</h2></div><div class='section-body'><div class='cards'><div class='card'><h4>“This is a scam.”</h4><p>Acknowledge the skepticism. The market is full of sugary, low-substance products, so the creative must emphasize credible ingredients, real user proof, and substance over celebrity hype.</p></div><div class='card'><h4>“It&#x27;s too expensive.”</h4><p>Reframe against ER visits, missed work, wasted remedies, sleepless nights, and repeated family stress.</p></div><div class='card'><h4>“It must taste bad.”</h4><p>Taste is a major conversion advantage — a sweet-sour citrus liquid that removes the daily resistance battle.</p></div><div class='card'><h4>“I&#x27;ve been coughing for years. Nothing works.”</h4><p>Frame the issue as long-term buildup that requires deeper, more patient support — not another surface-level syrup.</p></div></div><div class='list'><h3>Use the customer&#x27;s own language</h3><ul><li>“It feels like sandpaper in my throat.”</li><li>“That barking dry cough in the middle of the night.”</li><li>“Every morning I feel like I&#x27;m coughing my lungs out over the sink.”</li><li>“That wet rattling cough keeps me awake all night.”</li><li>“Every medicine time feels like a war.”</li></ul></div></div></section><section class='section' id='matrix'><div class='section-head'><div class='icon'>🏛️</div><h2>Positioning Matrix, Do/Don’t, and Sellable Numbers</h2></div><div class='section-body'><div class='grid'><div class='mini-card'><div class='label'>Key point</div><strong>Mechanism</strong><p>A highly absorbable 20ml liquid that quickly reaches the throat and lungs.</p></div><div class='mini-card'><div class='label'>Key point</div><strong>Root cause</strong><p>Use natural ingredients to support clearing, soothing, and restoration instead of numbing symptoms.</p></div><div class='mini-card'><div class='label'>Key point</div><strong>Ingredients</strong><p>Tiger Milk Mushroom + licorice + citrus = premium lung support with comfort and taste.</p></div><div class='mini-card'><div class='label'>Key point</div><strong>Value</strong><p>A small daily spend positioned as better sleep, less panic, and less wasteful medical spending.</p></div></div><div class='dual'><div class='dual-col'><h4>Messaging do</h4><ul><li>Show deep empathy for caregiving exhaustion and social embarrassment.</li><li>Emphasize “no boiling” and “pleasant taste.”</li><li>Use vivid but not disgusting scenes: midnight coughing, meeting-room shame, morning phlegm fear.</li><li>Present the product as a premium protective shield for the family.</li><li>Do the math for the customer: sleep, time, clinic visits, and emotional cost.</li></ul></div><div class='dual-col'><h4>Messaging don’t</h4><ul><li>Do not overclaim disease cures.</li><li>Do not make the brand look like a cheap supermarket syrup.</li><li>Do not shame smokers like a lecturer.</li><li>Do not hide behind overly technical medical language.</li><li>Do not rely on “stop cough” alone — explain clearing, soothing, and support.</li></ul></div></div><div class='list'><h3>Magic numbers from the source document</h3><ul><li>Helped over 1,900,000 users improve their breathing wellness story.</li><li>55% of users reportedly upgrade to TMK + Imuglo after feeling a real 30-day change.</li><li>Tiger Milk Mushroom carries 400+ years of indigenous use history.</li><li>Modern science framing: respiratory inflammation response reduction up to 70%.</li><li>Licorice framing: throat comfort and cough-frequency reduction above 40%.</li></ul></div></div></section>
+  </main>
 
-    <!-- ═══ 2. HERO PRODUCT / 主打产品 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--orange-glow);border:1px solid rgba(255,159,10,0.18)">🏆</span> Hero Product / 主打产品</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p><strong>Wellous Tigrox Tiger Milk King</strong> 是一款 20ml 即撕即饮的液态营养补充品，专为深受慢性咳嗽、顽固痰液和呼吸道免疫力低下困扰的<strong>儿童和成人</strong>精准设计。</p>
-            <p>它采用独创的<strong>「清、修、养」三合一机制</strong>——溶解深层顽痰、修复受损黏膜、补充肺部能量，运用先进的液态萃取技术，实现从根源解决呼吸道问题。</p>
-
-            <h3>产品独特优势 / What Makes It Different</h3>
-            <div class="icard">
-                <h4>⚡ 根源解决方案</h4>
-                <p>不同于市面上的止咳糖浆（麻痹神经、将毒痰困在肺中），Tigrox 直击根本——清除陈旧黏液垃圾，修复受损的呼吸道内壁。</p>
-            </div>
-            <div class="icard">
-                <h4>💧 超强吸收力</h4>
-                <p>先进液态萃取技术确保吸收率远超传统偏方（如冰糖炖雪梨——在体虚者身上反而产生更多痰液）。</p>
-            </div>
-            <div class="icard">
-                <h4>📦 极致便利</h4>
-                <p>20ml 即撕即饮包装，完美解决忙碌中年人"没时间熬药、吃药太麻烦"的执行障碍。</p>
-            </div>
-            <div class="icard">
-                <h4>🛡️ 三效合一机制</h4>
-                <p>「清」溶解深层顽痰 →「修」修复受损呼吸道黏膜 →「养」补充肺气、重建免疫防线。一个产品，三重保护。</p>
-            </div>
-
-            <h3>核心产品定位 / Core Product Positioning</h3>
-            <div class="feat" style="--accent-1:#ff9f0a;--accent-2:#ff453a">
-                <div class="feat-tag">核心定位</div>
-                <div class="feat-title">不是止咳药，是呼吸道修复系统</div>
-                <div class="feat-desc">Tigrox 不是另一款"压制症状"的止咳产品。它是一套完整的呼吸道健康修复方案——从清除毒痰、修复损伤到重建免疫力，真正让你的肺重获新生。</div>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 3. BRAND PERCEPTION / 品牌感知 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--blue-glow);border:1px solid rgba(41,151,255,0.18)">🎯</span> Brand Perception / 品牌感知</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <h3>品牌应该给人的感觉</h3>
-            <p>品牌应传达<strong>专业、科学、值得信赖</strong>的形象——不是廉价的"神奇药丸"，而是一位真正理解你痛苦的<strong>呼吸道健康专家</strong>。温暖但不煽情，专业但不冰冷，像一位你信任的医生朋友。</p>
-
-            <h3>每个人都应该知道的3件事 / What Everyone Should Know</h3>
-            <div class="icard">
-                <h4>1. 止咳糖浆的真相</h4>
-                <p>传统止咳糖浆通过麻痹咳嗽神经来"止咳"，实际上是把充满细菌和毒素的痰液困在肺里——这不是治疗，是掩耳盗铃。</p>
-            </div>
-            <div class="icard">
-                <h4>2. 抗生素的恶性循环</h4>
-                <p>反复使用抗生素会摧毁肠道菌群，而70%的免疫系统在肠道。结果就是免疫力越来越差，一感冒就咳嗽，形成恶性循环。</p>
-            </div>
-            <div class="icard">
-                <h4>3. 根源在于呼吸道损伤</h4>
-                <p>慢性咳嗽的真正原因不是"火气大"或"体质差"，而是呼吸道黏膜已经受损——只有修复损伤、清除旧痰、重建免疫，才能真正解决问题。</p>
-            </div>
-
-            <h3>主要成分机制 / Main Ingredient Mechanism</h3>
-            <div class="co blue">
-                <div class="co-t">🔬 「清、修、养」三步机制</div>
-                <p><strong>第一步「清」：</strong>深层溶解并排出积聚在呼吸道内的陈旧顽痰和毒素垃圾。</p>
-                <p><strong>第二步「修」：</strong>修复因长期咳嗽、感染和炎症而受损的呼吸道黏膜组织。</p>
-                <p><strong>第三步「养」：</strong>补充肺气能量，重建呼吸道免疫防线，防止反复感染。</p>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 4. TARGET AUDIENCE / 目标客户 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--purple-glow);border:1px solid rgba(191,90,242,0.18)">👥</span> Target Audience / 目标客户</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>我们的核心受众是<strong>40岁以上的"疲惫守护者"</strong>——家庭和职场的顶梁柱，却暗自为自己日益衰退的身体感到深深的焦虑。由于多年治疗失败、抗生素副作用和"病人"标签带来的社会歧视，他们变得<strong>极度愤世嫉俗</strong>。</p>
-
-            <h3>4 大客户画像</h3>
-            <div class="aud-grid">
-                <div class="aud-card">
-                    <div class="ac-icon">🚬</div>
-                    <div class="ac-name">固执的老烟枪 The Stubborn Uncle</div>
-                    <div class="ac-age">年龄：50+｜男性｜长期吸烟者</div>
-                    <div class="ac-desc">内心的恐惧：他的"小咳嗽"是通往COPD、肺气肿甚至肺癌的单程票。害怕成为拖着氧气罐的经济负担，却戒不掉烟。花了大钱做CT扫描、买冬虫夏草，全都没用。嘴上说"没事"，心里怕得要命。</div>
-                </div>
-                <div class="aud-card">
-                    <div class="ac-icon">🤱</div>
-                    <div class="ac-name">心累又无助的妈妈 The Exhausted Mother</div>
-                    <div class="ac-age">学龄儿童家长｜25-45岁</div>
-                    <div class="ac-desc">孩子反复生病，每个月跑诊所。抗生素吃了一轮又一轮，肠道菌群被摧毁，免疫力越来越差——学校里一有人感冒，孩子必中招。她只想让孩子健康快乐地成长，却困在这个无止境的生病循环里。</div>
-                </div>
-                <div class="aud-card">
-                    <div class="ac-icon">💼</div>
-                    <div class="ac-name">尴尬的久咳上班族 The Embarrassed Post-Viral Cougher</div>
-                    <div class="ac-age">年龄：40-55｜白领/管理层</div>
-                    <div class="ac-desc">最怕在安静的会议室或电梯里突然咳嗽，感觉所有人都在躲避自己。咳嗽已经严重损害了他的职业尊严。强力止咳糖浆只让胃酸更多，却无法阻止那些关键时刻的爆发性咳嗽。</div>
-                </div>
-                <div class="aud-card">
-                    <div class="ac-icon">👵</div>
-                    <div class="ac-name">焦虑的孝顺儿女 The Anxious Child</div>
-                    <div class="ac-age">年龄：25-40｜照顾年迈父母</div>
-                    <div class="ac-desc">看着父母日夜咳嗽却无能为力，每次听到深夜的咳嗽声都心痛不已。带父母看了无数医生、试了各种偏方，钱花了不少，问题还是没解决。最怕的是父母的"小咳嗽"恶化成大病，来不及挽救。</div>
-                </div>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 5. CORE DESIRES / 核心渴望 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--red-glow);border:1px solid rgba(255,69,58,0.18)">❤️</span> Core Desires / 核心渴望</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <div class="co blue" style="margin-bottom:14px">
-                <div class="co-t">💡 策略提示</div>
-                选择<strong>一个</strong>核心渴望，围绕它构建整支广告。不要试图在一条视频里塞满所有卖点。用最刺痛的痛点抓住注意力，放大那份特定的疲惫感，然后自然引入「清、修、养」机制。
-            </div>
-
-            <div class="des-grid">
-                <div class="des-card">
-                    <div class="des-q">"我不想再被当成行走的病毒源了。"</div>
-                    <div class="des-d">在现代办公室里做那个"一直咳嗽的人"，对中年人的尊严是毁灭性的打击。Tigrox 靶向溶痰机制消除突发性剧烈咳嗽。</div>
-                </div>
-                <div class="des-card">
-                    <div class="des-q">"我只想像婴儿一样一觉到天亮。"</div>
-                    <div class="des-d">被喉咙痒醒、整晚撕心裂肺地咳，白天像废人一样。清除呼吸道刺激物、修复黏膜，关掉呼吸道的"警报系统"。</div>
-                </div>
-                <div class="des-card">
-                    <div class="des-q">"我要清掉喉咙里那坨恶心的浓痰。"</div>
-                    <div class="des-d">每天早上一醒来就要拼命清除又黏又臭的顽痰，身心俱疲。液态萃取技术深层渗透，溶解深藏的陈年老痰。</div>
-                </div>
-                <div class="des-card">
-                    <div class="des-q">"我不想一吹风就感冒生病。"</div>
-                    <div class="des-d">感觉自己被诅咒了，别人打个喷嚏就中招。Tigrox 不只治咳嗽——它"养"肺补气，重建免疫堡垒。</div>
-                </div>
-                <div class="des-card">
-                    <div class="des-q">"我不想最后在ICU里花光一辈子的积蓄。"</div>
-                    <div class="des-d">内心深处的恐惧：忽视慢性咳嗽会导致不可逆的COPD和经济毁灭。一个从根源解决的方案保护未来的财富和家人。</div>
-                </div>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 6. TRIGGER EVENTS / 触发事件 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--amber-glow);border:1px solid rgba(255,214,10,0.18)">⚡</span> Trigger Events / 触发事件</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>这些是促使目标客户<strong>从犹豫变为行动</strong>的关键时刻——在广告中重现这些场景，能极大提升转化率。</p>
-
-            <div class="icard">
-                <h4>😰 社交羞耻事件</h4>
-                <p>在重要会议、聚餐或电梯里突然爆发剧烈咳嗽，所有人投来异样目光。那一刻的羞耻感让他们下定决心——"我不能再这样了。"</p>
-            </div>
-            <div class="icard">
-                <h4>🌙 又一个失眠之夜</h4>
-                <p>凌晨3点被喉咙里那坨"咳不出、咽不下"的痰折磨醒，整晚无法入睡。第二天拖着疲惫的身体上班，效率为零。这是压垮骆驼的最后一根稻草。</p>
-            </div>
-            <div class="icard">
-                <h4>👶 孩子又生病了</h4>
-                <p>学校一有人感冒，孩子必定中招。又要请假带孩子看医生、又要吃抗生素——妈妈终于忍不住了："一定有更好的办法。"</p>
-            </div>
-            <div class="icard">
-                <h4>🏥 体检报告的警告</h4>
-                <p>体检结果显示肺功能指标异常，或者身边的朋友因为呼吸道问题住院。恐惧感瞬间变得真实——"如果我不做点什么，下一个就是我。"</p>
-            </div>
-            <div class="icard">
-                <h4>💸 花了大钱却没效果</h4>
-                <p>又一瓶昂贵的保健品、又一次中医调理、又一轮抗生素——钱花了一大堆，咳嗽还是照样咳。积累的愤怒和绝望终于到达临界点。</p>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 7. AD ANGLES & HOOKS / 广告角度与钩子 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--green-glow);border:1px solid rgba(48,209,88,0.18)">🎯</span> Ad Angles & Hooks / 广告角度与钩子</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <h3>当前成功的广告格式 / Current Winning Formats</h3>
-            <p>最成功的广告大量使用<strong>极具代入感的视觉画面</strong>——比如在会议中拼命忍住咳嗽的痛苦表情、凌晨3点被痰折磨醒的绝望。成功的广告会立刻<strong>揭穿错误方案</strong>（如暴露止咳糖浆困住毒痰的危险），然后顺势引入「清、修、养」机制。</p>
-
-            <h3>4大广告角度 / Ad Angles</h3>
-            <div class="icard">
-                <h4>角度1：揭露真相型 🔍</h4>
-                <p>"你的止咳糖浆正在害你"——揭露传统止咳方法的危害，引起恐惧和好奇心，然后展示科学的替代方案。</p>
-            </div>
-            <div class="icard">
-                <h4>角度2：情感共鸣型 💔</h4>
-                <p>"我理解你的痛苦"——描绘目标客户的日常痛苦场景（失眠、社交尴尬、担心家人），让他们觉得"这说的就是我"。</p>
-            </div>
-            <div class="icard">
-                <h4>角度3：科学权威型 🔬</h4>
-                <p>「清、修、养」三步机制的科学解释——用专业但易懂的方式展示为什么这个方案能从根源解决问题，而不是掩盖症状。</p>
-            </div>
-            <div class="icard">
-                <h4>角度4：见证蜕变型 ✨</h4>
-                <p>"从整晚咳嗽到一觉到天亮"——通过前后对比和真实转变故事，展示产品带来的生活品质飞跃。</p>
-            </div>
-
-            <h3>8个高转化钩子 / High-Converting Hooks</h3>
-            <div class="hook-card">🪝 "你知道吗？你喝的止咳糖浆，正在把有毒的痰困在你的肺里。"</div>
-            <div class="hook-card">🪝 "凌晨3点，又被咳醒了？问题不在咳嗽，在你的肺已经受伤了。"</div>
-            <div class="hook-card">🪝 "如果你咳了超过2个星期还没好，你的身体在告诉你一件很严重的事。"</div>
-            <div class="hook-card">🪝 "我妈咳了3个月，看了5个医生，直到我发现了一个被忽略的真相……"</div>
-            <div class="hook-card">🪝 "每次开会你都在拼命忍住咳嗽？你不是感冒没好，是呼吸道在求救。"</div>
-            <div class="hook-card">🪝 "孩子一个月生病两次，不是免疫力差——是之前的治疗方法错了。"</div>
-            <div class="hook-card">🪝 "别再喝冰糖雪梨了——体虚的人越喝痰越多，中医都不会告诉你这个。"</div>
-            <div class="hook-card">🪝 "40岁以后还在咳？你离COPD可能只有一步之遥。"</div>
-
-            <div class="co red" style="margin-top:14px">
-                <div class="co-t">🚫 千万不要这样做</div>
-                不要使用懒惰的通用钩子。这个受众极度愤世嫉俗。如果你的广告看起来像另一个"智商税神奇药丸"，他们会立刻划走。你必须用<strong>对"疲惫守护者"的深度共情</strong>开头，再用逻辑和科学支撑。
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 8. AVATAR DEEP DIVE / 客户深度分析 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--teal-glow);border:1px solid rgba(100,210,255,0.18)">🧠</span> Avatar Deep Dive / 客户深度分析</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <h3>总结 / Executive Summary</h3>
-            <p>我们的目标客户不只是"咳嗽的人"——他们是<strong>被慢性呼吸道问题折磨多年、尝试过无数方案却一再失望的人</strong>。他们的痛苦不仅是身体上的，更是心理上的：社交羞耻、职业危机、家庭压力、对未来健康的深层恐惧。理解他们的内心世界，是创作出真正打动人的广告的关键。</p>
-
-            <h3>沉默与羞耻 / The Silence and Shame</h3>
-            <p>大多数慢性咳嗽患者不会主动寻求帮助——不是因为不想，而是因为<strong>羞耻</strong>。在华人文化中，"一直咳嗽"意味着"身体不行了"，意味着"老了"。尤其是中年男性，宁愿强撑也不愿承认自己需要帮助。他们默默承受着失眠、社交回避和内心恐惧，直到某个<strong>触发事件</strong>打破这个沉默。</p>
-
-            <h3>他们试过什么（都失败了） / What They've Tried & Failed</h3>
-            <div class="icard">
-                <h4>❌ 止咳糖浆 / 西药</h4>
-                <p>短期有效，长期无用。胃酸增多，咳嗽照旧。更糟的是，很多人不知道止咳糖浆实际上是把毒痰困在肺里。</p>
-            </div>
-            <div class="icard">
-                <h4>❌ 抗生素</h4>
-                <p>医生反复开抗生素，肠道菌群被破坏，免疫力反而更差。陷入"生病→吃药→更容易生病"的恶性循环。</p>
-            </div>
-            <div class="icard">
-                <h4>❌ 传统偏方</h4>
-                <p>冰糖雪梨、川贝枇杷膏、各种凉茶——花了时间和金钱，效果微乎其微。有些偏方在体虚者身上甚至适得其反。</p>
-            </div>
-            <div class="icard">
-                <h4>❌ 昂贵保健品</h4>
-                <p>冬虫夏草、燕窝、各种进口保健品——价格昂贵，但对慢性咳嗽没有针对性解决方案。"智商税"的阴影挥之不去。</p>
-            </div>
-
-            <h3>异议处理 / Objection Handling</h3>
-            <div class="qcard">
-                <div class="q">"又是保健品？我已经被骗够了。"</div>
-                <p>完全理解你的怀疑——市面上太多产品只会吹嘘却没效果。Tigrox 不同的是它有明确的三步机制（清、修、养），针对性解决呼吸道问题的根源，而不是掩盖症状。不是"吃了就好"的神奇药丸，而是科学的呼吸道修复方案。</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"这么小一包，能有什么效果？"</div>
-                <p>20ml 虽然看起来少，但采用先进的液态萃取技术，吸收率远超传统药片或粉剂。就像浓缩咖啡——小杯但力量强大。而且即撕即饮的设计让你不需要费时费力，每天坚持才是关键。</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"价格太贵了吧？"</div>
-                <p>算一笔账：反复看医生 + 抗生素 + 各种偏方 + 保健品，一年花下来何止几千？更不要说慢性咳嗽恶化后住院的费用。Tigrox 是从根源解决问题的投资，不是另一笔打水漂的开支。</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"我咳了这么多年，什么都试过了，不可能有效的。"</div>
-                <p>之前的方案之所以无效，是因为它们都在治标——压制咳嗽、杀菌消炎。但真正的问题是呼吸道黏膜已经受损。Tigrox 的「清、修、养」机制是第一个针对根本原因的方案——先清除旧痰，再修复损伤，最后重建防线。</p>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 9. CLAIMS RULES / 宣传规范 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--red-glow);border:1px solid rgba(255,69,58,0.18)">⚖️</span> Claims Rules / 宣传规范</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>Wellous 对宣传规范<strong>非常严格</strong>。因为这是一款膳食营养补充品，对于能说和不能说的内容有严格规定。</p>
-
-            <h3>可以说的 / What You CAN Say</h3>
-            <div class="icard">
-                <h4>✅ 支持呼吸道健康</h4>
-                <p>"帮助支持呼吸道健康"、"促进呼吸道舒适"、"支持正常的呼吸道功能"。</p>
-            </div>
-            <div class="icard">
-                <h4>✅ 描述机制</h4>
-                <p>「清、修、养」三步机制的描述、"帮助清除过多痰液"、"支持呼吸道黏膜健康"。</p>
-            </div>
-            <div class="icard">
-                <h4>✅ 成分描述</h4>
-                <p>描述虎乳芝等成分的传统用途和营养价值，引用已发表的科学研究。</p>
-            </div>
-
-            <h3>不能说的 / What You CANNOT Say</h3>
-            <div class="co red">
-                <div class="co-t">🚫 绝对禁止</div>
-                <p>❌ "治疗"、"治愈"、"预防"任何疾病<br>
-                ❌ "替代药物"、"比抗生素更好"<br>
-                ❌ "100%有效"、"保证见效"<br>
-                ❌ 暗示可以诊断或治疗 COPD、哮喘、肺炎等疾病<br>
-                ❌ 使用虚假的医生推荐或伪造的临床数据</p>
-            </div>
-
-            <h3>严格警告 / Strict Warning</h3>
-            <div class="co orange">
-                <div class="co-t">⚠️ 必须包含的免责声明</div>
-                每一条广告都必须包含以下免责声明：<br><br>
-                <strong>"此产品为膳食营养补充品，不能替代药物治疗。如有严重症状，请咨询专业医生。"</strong><br><br>
-                🎬 视频广告：在最后 3 秒以上显示在画面上。<br>
-                🖼️ 图片广告：覆盖在图片底部。
-            </div>
-
-            <h3>避免使用的词汇 / Words to Avoid</h3>
-            <div class="hook-card" style="color:var(--red)">❌ 治疗 · 治愈 · 预防 · 根治 · 药物 · 处方 · 临床证明 · 100%有效 · 保证 · 神奇 · 奇迹 · 立竿见影 · 医生推荐（除非真实）</div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 10. COMPETITOR ANALYSIS / 竞品分析 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--purple-glow);border:1px solid rgba(191,90,242,0.18)">⚔️</span> Competitor Analysis / 竞品分析</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>了解竞品的弱点，就是我们的广告武器。以下是目标客户最常使用的<strong>3大竞品类别</strong>及其致命缺陷。</p>
-
-            <div class="comp-card">
-                <div class="comp-name">🏥 传统止咳糖浆（如双料喉枣、念慈菴）</div>
-                <div class="comp-type">OTC 止咳药</div>
-                <div class="comp-desc"><strong>致命弱点：</strong>通过麻痹咳嗽反射来"止咳"，实际上是把充满细菌的痰液困在肺里。短期见效但长期无用，还会增加胃酸。消费者痛点："吃了暂时不咳，停了更严重。"<br><br><strong>我们的优势：</strong>Tigrox 不压制症状，而是从根源清除痰液、修复黏膜，实现真正的改善。</div>
-            </div>
-            <div class="comp-card">
-                <div class="comp-name">💊 抗生素（医生处方）</div>
-                <div class="comp-type">处方药</div>
-                <div class="comp-desc"><strong>致命弱点：</strong>反复使用摧毁肠道菌群，导致免疫力下降的恶性循环。对非细菌性咳嗽（如病毒后咳嗽）完全无效。消费者痛点："每次生病医生就开抗生素，越吃越容易生病。"<br><br><strong>我们的优势：</strong>Tigrox 作为营养补充品支持身体自身的修复和免疫机制，不破坏肠道健康。</div>
-            </div>
-            <div class="comp-card">
-                <div class="comp-name">🌿 传统偏方与昂贵保健品（冬虫夏草、燕窝等）</div>
-                <div class="comp-type">传统 / 保健品</div>
-                <div class="comp-desc"><strong>致命弱点：</strong>缺乏针对性——冬虫夏草是"补"但不"清"，燕窝是"养"但不"修"。价格昂贵却没有明确的呼吸道修复机制。冰糖雪梨等偏方在体虚者身上反而产生更多痰液。<br><br><strong>我们的优势：</strong>Tigrox 的「清、修、养」三合一机制覆盖完整的呼吸道修复链条，价格更具性价比。</div>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 11. CUSTOMER LANGUAGE / 客户语言 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--green-glow);border:1px solid rgba(48,209,88,0.18)">💬</span> Customer Language / 客户语言</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>在广告中使用<strong>客户自己的语言</strong>，能让他们瞬间产生共鸣："这个人完全懂我！"以下是真实客户常说的话，直接用在你的广告文案中。</p>
-
-            <h3>描述痛苦的语言</h3>
-            <div class="qcard">
-                <div class="q">"每天晚上都被咳醒，老公都分房睡了。"</div>
-                <p>——用于描绘失眠和家庭关系受影响的场景</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"喉咙里一直有东西，咳不出来也咽不下去。"</div>
-                <p>——用于描述顽痰的痛苦感受</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"孩子每个月都要看医生，抗生素吃到我心疼。"</div>
-                <p>——用于打动焦虑的父母</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"开会不敢坐前面，怕一咳嗽全场看我。"</div>
-                <p>——用于引发上班族的共鸣</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"什么偏方都试过了，钱花了一堆，还是老样子。"</div>
-                <p>——用于引发"试过一切都失败了"的共鸣</p>
-            </div>
-
-            <h3>描述期望的语言</h3>
-            <div class="qcard">
-                <div class="q">"我只想好好睡一觉，不被咳醒。"</div>
-                <p>——最基本也最强烈的渴望</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"希望孩子能像其他小朋友一样健康。"</div>
-                <p>——父母最深层的心愿</p>
-            </div>
-            <div class="qcard">
-                <div class="q">"不想再让家人担心我的身体了。"</div>
-                <p>——用于孝顺儿女和家庭支柱角色</p>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 12. POSITIONING MATRIX / 定位矩阵 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--blue-glow);border:1px solid rgba(41,151,255,0.18)">🏛️</span> Positioning Matrix / 定位矩阵</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>Tigrox 的品牌定位建立在以下<strong>4大支柱</strong>之上。每一条广告都应至少体现其中一个支柱。</p>
-
-            <div class="pillar-grid">
-                <div class="pillar-card">
-                    <div class="pillar-title">🔬 支柱一：科学根源论</div>
-                    <div class="pillar-desc">"不治标，治本。" 我们不压制咳嗽症状，而是通过「清、修、养」机制从根源修复呼吸道。每一步都有明确的科学逻辑，不是玄学也不是安慰剂。</div>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-title">❤️ 支柱二：深度共情</div>
-                    <div class="pillar-desc">"我们理解你的痛苦。" 不是居高临下的说教，而是真正理解慢性咳嗽患者的社交羞耻、失眠折磨和心理压力。先共情，再提供解决方案。</div>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-title">⚡ 支柱三：便捷执行</div>
-                    <div class="pillar-desc">"好方案必须容易坚持。" 20ml即撕即饮，不需要熬煮、冲泡、吞一大把药片。专为忙碌的现代人设计，让坚持变得毫不费力。</div>
-                </div>
-                <div class="pillar-card">
-                    <div class="pillar-title">🛡️ 支柱四：长期防护</div>
-                    <div class="pillar-desc">"不只是解决当下，更是投资未来。" Tigrox 不只处理当前的咳嗽问题——通过重建呼吸道免疫防线，降低未来反复感染的风险，保护你的健康和财富。</div>
-                </div>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 13. MESSAGING DO'S & DON'TS / 文案该与不该 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--green-glow);border:1px solid rgba(48,209,88,0.18)">✅</span> Messaging Do's & Don'ts / 文案该与不该</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <div class="do-grid">
-                <div class="do-card do-yes">
-                    <strong>✅ 用客户自己的语言</strong><br>
-                    使用他们真实说过的话、描述过的痛苦。"喉咙里那坨痰"比"呼吸道不适"有力100倍。
-                </div>
-                <div class="do-card do-no">
-                    <strong>❌ 不要用医学术语轰炸</strong><br>
-                    受众不是医生。"黏膜修复"可以说，但不要堆砌"抗炎因子""免疫球蛋白"等他们听不懂的词。
-                </div>
-                <div class="do-card do-yes">
-                    <strong>✅ 先共情再卖货</strong><br>
-                    前3秒必须让他们觉得"这个人懂我"。先描绘痛苦、引发共鸣，再自然引入解决方案。
-                </div>
-                <div class="do-card do-no">
-                    <strong>❌ 不要一上来就推销</strong><br>
-                    "快来买Tigrox！"这种广告他们一秒划走。他们对所有推销都有极强的防御心理。
-                </div>
-                <div class="do-card do-yes">
-                    <strong>✅ 揭穿旧方案的问题</strong><br>
-                    告诉他们为什么以前的方法失败了，这能瞬间建立信任——"这个人说的是真话。"
-                </div>
-                <div class="do-card do-no">
-                    <strong>❌ 不要贬低竞品品牌名</strong><br>
-                    可以说"传统止咳糖浆的问题"，但不要点名攻击特定品牌，这会显得不专业且有法律风险。
-                </div>
-                <div class="do-card do-yes">
-                    <strong>✅ 用具体场景而非抽象描述</strong><br>
-                    "凌晨3点被咳醒"比"改善睡眠质量"具体100倍。越具体，代入感越强。
-                </div>
-                <div class="do-card do-no">
-                    <strong>❌ 不要承诺"治愈"或"保证有效"</strong><br>
-                    这不仅违规，而且会让怀疑论者更加不信任。用"支持""帮助""促进"代替。
-                </div>
-                <div class="do-card do-yes">
-                    <strong>✅ 展示「清、修、养」的逻辑</strong><br>
-                    给他们一个"为什么这次不一样"的理由。清晰的三步机制让他们觉得这是科学方案，不是智商税。
-                </div>
-                <div class="do-card do-no">
-                    <strong>❌ 不要使用夸张的前后对比</strong><br>
-                    "吃了3天咳嗽完全消失"这种话没人信。真实、渐进的改善故事比"奇迹"更有说服力。
-                </div>
-                <div class="do-card do-yes">
-                    <strong>✅ 用恐惧但不要过度恐吓</strong><br>
-                    适度的健康风险提醒（如COPD）是有效的，但不要用恐慌或焦虑操控——要给出希望和解决方案。
-                </div>
-                <div class="do-card do-no">
-                    <strong>❌ 不要忘记免责声明</strong><br>
-                    每条广告都必须包含免责声明。漏掉这一步可能导致广告被拒、账号被封，甚至法律问题。
-                </div>
-            </div>
-        </div></div>
-    </div>
-
-    <!-- ═══ 14. MAGIC NUMBERS / 说服力数据 ═══ -->
-    <div class="tile">
-        <div class="tile-head" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
-            <h2><span class="t-icon" style="background:var(--amber-glow);border:1px solid rgba(255,214,10,0.18)">🔢</span> Magic Numbers / 说服力数据</h2>
-            <svg class="chev" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
-        </div>
-        <div class="tile-body"><div class="tile-inner">
-            <p>数据比文字更有说服力。在广告中巧妙使用这些数字，能够<strong>快速建立可信度并制造紧迫感</strong>。</p>
-
-            <div class="stat-grid">
-                <div class="stat-card">
-                    <div class="stat-num">70%</div>
-                    <div class="stat-label">免疫系统位于肠道<br>——抗生素正在摧毁它</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-num">20ml</div>
-                    <div class="stat-label">即撕即饮<br>无需熬煮冲泡</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-num">3步</div>
-                    <div class="stat-label">清、修、养<br>完整修复机制</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-num">2周+</div>
-                    <div class="stat-label">咳嗽超过2周<br>不是普通感冒</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-num">3AM</div>
-                    <div class="stat-label">被咳醒的时间<br>——你也是吗？</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-num">$$$</div>
-                    <div class="stat-label">反复看医生的花费<br>远超预防投资</div>
-                </div>
-            </div>
-
-            <div class="warn-banner" style="margin-top:16px">
-                <strong>⚠️ 使用提醒：</strong>在广告中引用数据时，确保来源可靠。"70%免疫系统在肠道"是广泛引用的科学共识，可以使用。但不要编造具体的临床试验数据或伪造统计数字。
-            </div>
-        </div></div>
-    </div>
-
-</div>
-
-<div class="foot">Wellous — Tigrox Tiger Milk King Ad Bounty Playbook v1.0</div>
-
+  <div class="wrap footer">Rebuilt from the latest Tigrox Playbook Version 1.0 source document • Generated by Lisa 🤍</div>
 </body>
 </html>
